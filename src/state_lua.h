@@ -2,6 +2,7 @@
 #define BAR_LSTATE_H
 
 #include "mybar.h"
+#include "app.h"
 #include "mybar/luabindings.h"
 
 #define LUA_GLOBAL_BAR_STATE "bar_state"

@@ -2,6 +2,7 @@
 #define BAR_STATE_GTK_H
 
 #include "mybar.h"
+#include "app.h"
 
 void bar_init_gtk_app(BarApp* app);
 void bar_init_gtk_window(BarApp* app);
@@ -60,10 +61,8 @@ bar_get_display_safely(BarApp* app, GdkDisplay** display) {
   ASSERT(app);
   ASSERT((*display) == NULL);
   (*display) = bar_get_display(app);
-  if(!(*display)) {
-    fprintf(stderr, "failed to get gtk display from window.\n");
-    exit(1);
-  }
+  if(!(*display))
+    bar_error(app, "failed to get gtk display from window");
 }
 
 #endif // BAR_STATE_GTK_H

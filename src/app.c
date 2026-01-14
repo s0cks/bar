@@ -3,6 +3,7 @@
 #include "state_gtk.h"
 #include "uv_gsource.h"
 #include "util.h"
+#include "log.h"
 
 void bar_error(BarApp* app, const char* err) {
   ASSERT(app);
@@ -21,13 +22,13 @@ void bar_publish(BarApp* app, const char* event) {
 }
 
 static inline void on_tick(uv_timer_t* handle) {
-
+  DLOG("tick");
 }
 
 static inline gboolean
 on_update_tick(gpointer data) {
   BarApp* app = (BarApp*)data;
-  fprintf(stdout, "g update tick\n");
+  LOG("g update tick");
   return G_SOURCE_CONTINUE;
 }
 
@@ -63,7 +64,7 @@ void bar_add_left(BarApp* app, GtkWidget* widget) {
 }
 
 bool bar_app_run(BarApp* app) {
-  fprintf(stdout, "running app....\n");
+  LOG("running app....");
   int status = g_application_run(G_APPLICATION(app->app), app->argc, app->argv);
   //TODO(@s0cks): check status
   return true;

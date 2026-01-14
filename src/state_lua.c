@@ -17,8 +17,7 @@ void barL_doinit(BarApp* app) {
   ASSERT(app);
   char* init_filename = get_bar_init_filename(app);
   if(!init_filename) {
-    fprintf(stderr, "failed to get init filename\n");
-    exit(1);
+    bar_error(app, "failed to get init filename");
     return;
   }
   barL_dofile(app, init_filename);
@@ -91,7 +90,7 @@ void barL_init(BarApp* app) {
 #define L app->L
   L = luaL_newstate();
   if(!L) {
-    fprintf(stderr, "failed to create bar lua app.\n");
+    bar_error(app, "failed to create lua state");
     return;
   }
 
@@ -156,15 +155,15 @@ void barL_call_config_init(BarApp* app) {
 #define L app->L
   lua_getfield(L, -1, "init");
   if(lua_isnoneornil(L, -1)) {
-    fprintf(stdout, "init function not found\n");
+    DLOG("config config['init'] is nil");
     return;
   } else if(!lua_isfunction(L, -1)) {
-    fprintf(stderr, "config['init'] is not a function\n");
+    DLOG("config['init'] is not a function");
     return;
   }
   int status = lua_pcall(L, 0, 1, 0);
   if(status != LUA_OK) {
-    fprintf(stderr, "failed to execute config['init'] function\n");
+    bar_error(app, "failed to executing config['init']");
     return;
   }
 #undef L

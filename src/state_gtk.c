@@ -1,6 +1,7 @@
 #include "state_gtk.h"
 #include "state_lua.h"
 #include "app.h"
+#include "log.h"
 #include "uv_gsource.h"
 
 // Left
@@ -108,14 +109,12 @@ void bar_load_style(BarApp* app) {
   bar_publish(app, "style.pre-load");
   const char* filename = barL_get_style(app);
   ASSERT(filename);
-#ifdef BAR_DEBUG
-  fprintf(stdout, "loading style from %s ....\n", filename);
-#endif // BAR_DEBUG
+  DLOG_F("loading style from %s ....", filename);
 
   GtkCssProvider* css_provider = gtk_css_provider_new();
   if(!css_provider) {
-    fprintf(stderr, "failed to create gtk css provider.\n");
-    exit(1);
+    bar_error(app, "failed to create gtk css provider");
+    return;
   }
 
   GdkDisplay* display = NULL;
@@ -127,8 +126,6 @@ void bar_load_style(BarApp* app) {
 
   g_object_unref(css_file);
   g_object_unref(css_provider);
-#ifdef BAR_DEBUG
-  fprintf(stdout, "finished loading style.\n");
-#endif // BAR_DEBUG
+  DLOG("finished loading style.");
   bar_publish(app, "style.post-load");
 }
