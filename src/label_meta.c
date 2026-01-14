@@ -1,7 +1,6 @@
 #include "moonbar.h"
 #include "label.h"
 #include "state_lua.h"
-#include "moonbar/luabindings.h"
 
 DEFINE_LUA_F(set_text) {
   Label* label = (Label*)lua_touserdata(L, 1);

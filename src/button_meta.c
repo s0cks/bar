@@ -1,7 +1,6 @@
 #include "moonbar.h"
 #include "button.h"
 #include "state_lua.h"
-#include "moonbar/luabindings.h"
 
 #define INVALID_BUTTON_USERDATA ({            \
   luaL_error(L, "invalid Button userdata.");  \

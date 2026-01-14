@@ -1,3 +1,6 @@
+#define DEFINE_LUA_F(Name) \
+  static inline int Name(lua_State* L)
+
 BarApp* mbarL_get_mbar_app(lua_State* L);
 void mbarL_dostring(BarApp* app, const char* code);
 void mbarL_dofile(BarApp* app, const char* filename);

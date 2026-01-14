@@ -3,7 +3,6 @@
 
 #include "moonbar.h"
 #include "app.h"
-#include "moonbar/luabindings.h"
 
 #define LUA_GLOBAL_MBAR_STATE "mbar_state"
 

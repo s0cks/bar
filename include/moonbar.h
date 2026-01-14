@@ -1,12 +1,12 @@
 #ifndef MOONBAR_H
 #define MOONBAR_H
 
+#include <uv.h>
+
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
 #include <luajit.h>
-
-#include <uv.h>
 
 #include <gtk/gtk.h>
 #include <gtk4-layer-shell.h>
@@ -28,8 +28,6 @@
 #define MBAR_VERSION_MINOR @PROJECT_VERSION_MINOR@
 #define MBAR_VERSION_PATCH @PROJECT_VERSION_PATCH@
 // clang-format on
-
-#include "moonbar/luabindings.h"
 
 char* mbar_get_version();
 #include "moonbar-callback.inl.h"

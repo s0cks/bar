@@ -1,6 +1,5 @@
 #include "moonbar.h"
 #include "state_lua.h"
-#include "moonbar/luabindings.h"
 #include "util.h"
 
 DEFINE_LUA_F(is_debug) {
