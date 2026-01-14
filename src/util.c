@@ -1,14 +1,17 @@
+#include "util.h"
 #include "mybar.h"
-#include "state_lua.h"
-#include "state_gtk.h"
-#include "app.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
 
-char* bar_get_home_from_env() {
+bool file_exists(const char* filename) {
+  ASSERT(filename);
+  return access(filename, F_OK) == 0;
+}
+
+char* bar_get_config_dir() {
   char* home = getenv("BAR_HOME");
   if(home)
     return strdup(home);
@@ -34,11 +37,10 @@ char* bar_get_home_from_env() {
   return new_home;
 }
 
-char* bar_app_get_cwd(BarApp* app) {
-  ASSERT(app);
+char* bar_get_cwd() {
   char cwd[PATH_MAX];
   if(getcwd(cwd, sizeof(cwd)) == NULL) {
-      bar_error(app, "failed to get cwd");
+      fprintf(stderr, "failed to get current working directory.\n");
       return NULL;
   }
   return strdup(cwd);

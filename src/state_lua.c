@@ -1,6 +1,6 @@
 #include "state_lua.h"
 #include "util.h"
-#include "state.h"
+#include "app.h"
 
 static const char* kInitFilename = "init.lua";
 

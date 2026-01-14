@@ -1,5 +1,5 @@
 #include "label.h"
-#include "state.h"
+#include "app.h"
 
 Label* bar_create_label(BarApp* app, const char* text) {
   GtkWidget* widget = gtk_label_new(text);

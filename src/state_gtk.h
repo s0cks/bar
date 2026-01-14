@@ -2,7 +2,6 @@
 #define BAR_STATE_GTK_H
 
 #include "mybar.h"
-#include "state.h"
 
 void bar_init_gtk_app(BarApp* app);
 void bar_init_gtk_window(BarApp* app);

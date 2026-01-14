@@ -3,10 +3,8 @@
 
 #include <unistd.h>
 
-static inline bool
-file_exists(const char* filename) {
-  ASSERT(filename);
-  return access(filename, F_OK) == 0;
-}
+bool file_exists(const char* filename);
+char* bar_get_config_dir();
+char* bar_get_cwd();
 
 #endif // BAR_UTIL_H

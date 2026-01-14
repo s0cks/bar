@@ -2,6 +2,7 @@
 #include "state_lua.h"
 #include "state_gtk.h"
 #include "uv_gsource.h"
+#include "util.h"
 
 void bar_error(BarApp* app, const char* err) {
   ASSERT(app);
@@ -15,7 +16,7 @@ bool bar_app_init(BarApp* app, int argc, char** argv) {
   app->argc = argc;
   app->argv = argv;
   app->loop = uv_loop_new();
-  app->home = bar_get_home_from_env();
+  app->home = bar_get_config_dir();
   // app->source = uv_gsource_init(app->loop);
   barL_init(app);
   bar_init_gtk_app(app);

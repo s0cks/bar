@@ -1,5 +1,6 @@
 #include "state_gtk.h"
 #include "state_lua.h"
+#include "app.h"
 
 static inline void
 on_activate(GtkApplication* gtk_app, gpointer user_data) {

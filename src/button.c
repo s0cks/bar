@@ -1,5 +1,5 @@
 #include "button.h"
-#include "state.h"
+#include "app.h"
 
 Button* bar_create_button(BarApp* app, const char* text) {
   ASSERT(app);

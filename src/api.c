@@ -1,6 +1,7 @@
 #include "mybar.h"
 #include "state_lua.h"
 #include "mybar/luabindings.h"
+#include "util.h"
 
 DEFINE_LUA_F(is_debug) {
   lua_pushboolean(L, BAR_DEBUG);
@@ -15,7 +16,7 @@ DEFINE_LUA_F(get_config_dir) {
 
 DEFINE_LUA_F(get_cwd) {
   barL_check_global_app(L, app);
-  lua_pushstring(L, bar_app_get_cwd(app));
+  lua_pushstring(L, bar_get_cwd());
   return 1;
 }
 
