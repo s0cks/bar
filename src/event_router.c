@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-#include "moonbar/event_router.h"
-#include "moonbar/luabindings.h"
+#include "moonbar.h"
 
 EventRoute* event_route_new() {
   EventRoute* node = (EventRoute*)malloc(sizeof(EventRoute));

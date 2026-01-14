@@ -29,10 +29,11 @@
 #define MBAR_VERSION_PATCH @PROJECT_VERSION_PATCH@
 // clang-format on
 
-#include "moonbar/callback.h"
-#include "moonbar/event_router.h"
+#include "moonbar/luabindings.h"
 
 char* mbar_get_version();
+#include "moonbar-callback.inl.h"
+#include "moonbar-events.inl.h"
 #include "moonbar-app.inl.h"
 #include "moonbar-label.inl.h"
 #include "moonbar-button.inl.h"

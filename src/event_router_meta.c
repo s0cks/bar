@@ -1,4 +1,3 @@
-#include "moonbar/event_router.h"
 #include "moonbar.h"
 
 DEFINE_LUA_F(on) {
