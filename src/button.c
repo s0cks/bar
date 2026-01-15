@@ -4,7 +4,7 @@
 #define DEFINE_ON_SIGNAL(Signal)                        \
   static inline void                                    \
   on_btn_##Signal(GtkWidget* widget, gpointer data) {   \
-    mbar_button_publish((Button*)data, #Signal);        \
+    mbar_widget_publish((Button*)data, #Signal);        \
   }
 
   FOR_EACH_BUTTON_SIGNAL(DEFINE_ON_SIGNAL)
@@ -27,16 +27,6 @@ Button* mbar_create_button(BarApp* app, const char* text) {
 #undef CONNECT_SIGNAL
   g_object_ref(value->handle);
   return value;
-}
-
-void mbar_button_publish(Button* btn, const char* event) {
-  ASSERT(btn);
-  EventRoute* root = event_route_search(btn->events, event);
-  if(!root)
-    return;
-#define L btn->owner->L
-  event_route_call(L, root);
-#undef L
 }
 
 void mbar_free_button(Button* btn) {

@@ -23,6 +23,7 @@ mbarL_push_config_ref(BarApp* app) {
 }
 
 void mbarL_init_api(lua_State* L);
+void mbarL_initmetatable_widget(lua_State* L);
 void mbarL_initmetatable_label(lua_State* L);
 void mbarL_initmetatable_button(lua_State* L);
 void mbarL_initmetatable_event_route(lua_State* L);

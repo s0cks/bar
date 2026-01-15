@@ -2,13 +2,13 @@
 #define MBAR_LABEL_H
 
 #include "moonbar.h"
+#include "widget.h"
 
-static constexpr const int kMaxNumberOfCallbacks = 4;
+#define FOR_EACH_LABEL_SIGNAL(V) \
+  FOR_EACH_WIDGET_SIGNAL(V)
 
 struct _Label {
-  GtkWidget* handle;
-  BarApp* owner;
-  int callbacks[kMaxNumberOfCallbacks];
+  MOONBAR_WIDGET_FIELDS;
 };
 
 #endif // MBAR_LABEL_H

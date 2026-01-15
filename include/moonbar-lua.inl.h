@@ -13,6 +13,7 @@ void mbarL_dofile(BarApp* app, const char* filename);
 #define DEFINE_METATABLE_NAME(Name) \
   static const char* k##Name##MetatableName = #Name;
 
+DEFINE_METATABLE_NAME(Widget);
 FOR_EACH_METATABLE_NAME(DEFINE_METATABLE_NAME)
 #undef DEFINE_METATABLE_NAME
 

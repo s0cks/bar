@@ -9,8 +9,8 @@ Label* mbar_create_label(BarApp* app, const char* text) {
   }
   Label* label = (Label*)malloc(sizeof(Label));
   label->owner = app;
+  label->events = NULL;
   label->handle = widget;
-  memset(&label->callbacks[0], 0, sizeof(label->callbacks));
   g_object_ref(label->handle);
   return label;
 }

@@ -12,20 +12,7 @@
   if((Name) == NULL)                                    \
     INVALID_BUTTON_USERDATA;
 
-DEFINE_LUA_F(button_on) {
-  BUTTON_USERDATA(button, 1);
-  const char* event = lua_tostring(L, 2);
-  if(!lua_isfunction(L, 3)) {
-    luaL_error(L, "expected argument 3 to be a function\n");
-    return 0;
-  }
-  DLOG("inserting event handler");
-  event_route_insertl(button->events, event, L, 3);
-  return 0;
-}
-
 static const luaL_Reg kButtonFuncs[] = {
-  { "on", button_on },
   { NULL, NULL },
 };
 
@@ -62,7 +49,7 @@ static const luaL_Reg kButtonLibFuncs[] = {
 void mbarL_initmetatable_button(lua_State* L) {
   luaL_newmetatable(L, kButtonMetatableName);
   luaL_setfuncs(L, kButtonFuncs, 0);
-  lua_pushvalue(L, -1);
+  luaL_getmetatable(L, kWidgetMetatableName);
   lua_setfield(L, -2, "__index");
 
   lua_newtable(L);

@@ -86,6 +86,7 @@ void mbarL_init_api(lua_State* L) {
   lua_setfield(L, -2, "__index");
   lua_setglobal(L, "CoreLib");
 
+  mbarL_initmetatable_widget(L);
   mbarL_initmetatable_label(L);
   mbarL_initmetatable_button(L);
 }

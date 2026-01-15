@@ -2,18 +2,14 @@
 #define MBAR_BUTTON_H
 
 #include "moonbar.h"
+#include "widget.h"
 
 #define FOR_EACH_BUTTON_SIGNAL(V) \
-  V(clicked) \
-  V(show) \
-  V(hide)
+  FOR_EACH_WIDGET_SIGNAL(V)       \
+  V(clicked)
 
 struct _Button {
-  GtkWidget* handle;
-  BarApp* owner;
-  EventRoute* events;
+  MOONBAR_WIDGET_FIELDS;
 };
-
-void mbar_button_publish(Button* btn, const char* event);
 
 #endif // MBAR_BUTTON_H

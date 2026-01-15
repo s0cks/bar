@@ -3,6 +3,7 @@ MBAR_EXEC="${MBAR_EXEC:-./moonbar}"
 MBAR_LIB_HOME="${MBAR_LIB_HOME:-${0:a:h:h}}"
 MBAR_CLIB_HOME="${MBAR_CLIB_HOME:-$(pwd)/bindings}"
 MBAR_CONFIG_HOME="${MBAR_CONFIG_HOME:-$XDG_CONFIG_HOME/bar}"
+
 if [[ ! (-f "$MBAR_EXEC" && -x "$MBAR_EXEC") ]]; then
   echo "failed to find moonbar executable: $MBAR_EXEC"
   ls -lash .
@@ -40,14 +41,16 @@ __generate_lua_cpath() {
 }
 
 __generate_lua_path
-lua_path="${(j|;|)reply};;"
+export LUA_PATH="${(j|;|)reply};;"
 
 __generate_lua_cpath
-lua_cpath="${(j|;|)reply};;"
+export LUA_CPATH="${(j|;|)reply};;"
 
-(cd "$MBAR_CONFIG_HOME/" \
-  && MESA_DEBUG=silent \
-     MESA_LOG_FILE=mesa.log \
-     LUA_PATH=$lua_path \
-     LUA_CPATH=$lua_cpath \
-     $MBAR_EXEC)
+export MESA_DEBUG=silent
+export MESA_LOG_FILE=mesa.log
+
+if [[ -v MBAR_DEBUG ]]; then
+(cd "$MBAR_CONFIG_HOME/" && lldb -o run -- $MBAR_EXEC)
+else
+  (cd "$MBAR_CONFIG_HOME/" && $MBAR_EXEC)
+fi
