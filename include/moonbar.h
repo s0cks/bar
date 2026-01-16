@@ -29,6 +29,8 @@
 #define MBAR_VERSION_PATCH @PROJECT_VERSION_PATCH@
 // clang-format on
 
+typedef struct _HyprClient HyprClient;
+
 char* mbar_get_version();
 #include "moonbar-callback.inl.h"
 #include "moonbar-events.inl.h"

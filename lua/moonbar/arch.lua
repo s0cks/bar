@@ -1,5 +1,6 @@
 local M = {}
 local mbar = require('moonbar')
+local deferred = require('deferred')
 
 function M.get_number_of_aur_updates(cb)
   mbar.exec_shell(
@@ -13,7 +14,6 @@ function M.get_number_of_aur_updates(cb)
 end
 
 function M.get_number_of_official_updates(cb)
-  print('getting official updates....')
   mbar.exec_shell(
     { "checkupdates | wc -l" },
     function(data)
@@ -27,17 +27,16 @@ function M.get_number_of_official_updates(cb)
 end
 
 function M.get_number_of_updates(cb)
-  print('getting updates....')
+  local d = deferred.new()
   mbar.exec_shell(
     { "paru -Qet | wc -l" }, 
     function(data)
-      print('data: ' .. data)
-      cb(data)
+      d:resolve(data)
     end,
     function(err)
-      print('error: ' .. er)
-      cb(nil, err)
+      d:reject(err)
     end)
+  return d
 end
 
 return M

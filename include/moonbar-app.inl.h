@@ -21,6 +21,7 @@ typedef struct _BarApp {
   uv_timer_t timer;
   uv_fs_event_t style_watcher;
   struct _uv_gsource* source;
+  HyprClient* hypr;
 } BarApp;
 
 bool mbar_app_init(BarApp* app, int argc, char** argv);
