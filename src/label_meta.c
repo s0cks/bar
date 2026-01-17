@@ -8,8 +8,9 @@ DEFINE_LUA_F(set_text) {
     luaL_error(L, "invalid label userdata");
     return 0;
   }
-  const char* text = lua_tostring(L, -1);
+  const char* text = lua_tostring(L, 2);
   gtk_label_set_text(GTK_LABEL(label->handle), text);
+  fprintf(stdout, "setting label text to: %s\n", text);
   return 1;
 }
 

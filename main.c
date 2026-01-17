@@ -1,6 +1,9 @@
 #include "moonbar.h"
 
 int main(int argc, char **argv) {
+  fprintf(stdout, "vertical %d\n", GTK_ORIENTATION_VERTICAL);
+  fprintf(stdout, "horizontal %d\n", GTK_ORIENTATION_HORIZONTAL);
+
   BarApp app;
   if(!mbar_app_init(&app, argc, argv))
     return EXIT_FAILURE;

@@ -9,12 +9,14 @@ DEFINE_LUA_F(box_new) {
     return 0;
   }
 
-  int orientation = GTK_ORIENTATION_HORIZONTAL;
+  const int orientation = lua_tonumber(L, 1);
+  fprintf(stdout, "creating box w/ orientation %d\n", orientation);
   Box* value = mbar_create_box(app, orientation);
   if(!value) {
     luaL_error(L, "failed to create gtk box.");
     return 0;
   }
+  fprintf(stdout, "pushing box\n");
   mbarL_pushbox(L, value);
   return 1;
 }

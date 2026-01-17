@@ -71,7 +71,7 @@ mbarL_hello_world(BarApp* app) {
   void mbarL_initmetatable_##Name(lua_State* L) {   \
     luaL_newmetatable(L, k##Type##MetatableName);   \
     luaL_setfuncs(L, k##Type##Funcs, 0);            \
-    luaL_getmetatable(L, kWidgetMetatableName);      \
+    luaL_getmetatable(L, kWidgetMetatableName);     \
     lua_setfield(L, -2, "__index");                 \
   }
 

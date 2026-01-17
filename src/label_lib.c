@@ -7,9 +7,9 @@ DEFINE_LUA_F(new_label) {
   if(lua_isnoneornil(L, -1)) {
     text = "";
   } else if(lua_isstring(L, -1)) {
-    text = lua_tostring(L, -1);
+    text = lua_tostring(L, 1);
   } else {
-    text = lua_tostring(L, -1);
+    text = lua_tostring(L, 1);
   }
 
   BarApp* app = mbarL_get_mbar_app(L);
@@ -18,12 +18,15 @@ DEFINE_LUA_F(new_label) {
     return 0;
   }
 
+  fprintf(stdout, "creating label...\n");
   Label* label = mbar_create_label(app, text);
   if(!label) {
     luaL_error(L, "failed to create gtk label");
     return 0;
   }
+  fprintf(stdout, "pushing label...\n");
   mbarL_pushlabel(L, label);
+  fprintf(stdout, "done.\n");
   return 1;
 }
 

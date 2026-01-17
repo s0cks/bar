@@ -5,7 +5,8 @@
 
 Box* mbar_create_box(BarApp* app, const int orientation) {
   ASSERT(app);
-  GtkWidget* widget = gtk_box_new(orientation, 0);
+  fprintf(stdout, "creating box\n");
+  GtkWidget* widget = gtk_box_new(orientation, 1);
   if(!widget) {
     mbar_error(app, "failed to create Box");
     return NULL;
