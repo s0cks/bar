@@ -19,6 +19,18 @@ Label* mbar_create_label(BarApp* app, const char* text) {
   return label;
 }
 
+void mbarL_push_new_label(BarApp* app, const char* text) {
+  ASSERT(app);
+  Label* label = mbar_create_label(app, text);
+#define L app->L
+  if(!label) {
+    luaL_error(L, "failed to create Label");
+    return;
+  }
+  mbarL_pushlabel(L, label);
+#undef L
+}
+
 void mbar_free_label(Label* value) {
   if(!value)
     return;

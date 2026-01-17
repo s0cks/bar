@@ -1,57 +1,49 @@
+#define DECLARE_LUA_F(Name) \
+  MBAR_INLINE int Name(lua_State* L);
+
 #define DEFINE_LUA_F(Name) \
-  static inline int Name(lua_State* L)
+  MBAR_INLINE int Name(lua_State* L)
 
 BarApp* mbarL_get_mbar_app(lua_State* L);
 void mbarL_dostring(BarApp* app, const char* code);
 void mbarL_dofile(BarApp* app, const char* filename);
 
-#define FOR_EACH_METATABLE_NAME(V) \
-  V(Label) \
-  V(Button) \
-  V(EventRoute) \
-  V(Box)
+#define FOR_EACH_LUA_TYPE(V)          \
+  V(box, Box)                         \
+  V(label, Label)                     \
+  V(button, Button)                   \
+  V(event_route, EventRoute)
 
-#define DEFINE_METATABLE_NAME(Name) \
-  static const char* k##Name##MetatableName = #Name;
+#define DECLARE_LUA_TYPE(Name, Type)                      \
+  static const char* k##Type##MetatableName = #Type;      \
+  void mbarL_initmetatable_##Name(lua_State* L);          \
+  void mbarL_initlib_##Name(lua_State* L);                \
 
-DEFINE_METATABLE_NAME(Widget);
-FOR_EACH_METATABLE_NAME(DEFINE_METATABLE_NAME)
-#undef DEFINE_METATABLE_NAME
-
-#define DECLARE_LUA_PUSH_TYPE(Name, Type)             \
-  void mbarL_push##Name(lua_State* L, Type* value);   \
-  static inline void                                  \
-  mbarL_push##Name##x(BarApp* app, Type* value) {     \
-    return mbarL_push##Name(app->L, value);           \
-  }
-
-#define DECLARE_LUA_TO_TYPE(Name, Type)                   \
+#define DECLARE_LUA_TYPE_STACK_OPS(Name, Type)            \
+  void mbarL_push##Name(lua_State* L, Type* value);       \
+  MBAR_INLINE void                                        \
+  mbarL_push##Name##x(BarApp* app, Type* value) {         \
+    return mbarL_push##Name(app->L, value);               \
+  }                                                       \
   Type* mbarL_to##Name(lua_State* L, const int index);    \
-  static inline Type*                                     \
+  MBAR_INLINE Type*                                       \
   mbarL_to##Name##x(BarApp* app, const int index) {       \
     return mbarL_to##Name(app->L, index);                 \
   }
 
-#define DECLARE_LUA_TYPE_STACK_OPS(Name, Type) \
-  DECLARE_LUA_PUSH_TYPE(Name, Type) \
-  DECLARE_LUA_TO_TYPE(Name, Type)
+DECLARE_LUA_TYPE(widget, Widget)
+FOR_EACH_LUA_TYPE(DECLARE_LUA_TYPE)
+FOR_EACH_LUA_TYPE(DECLARE_LUA_TYPE_STACK_OPS)
+#undef DECLARE_LUA_TYPE
+#undef DECLARE_LUA_TYPE_STACK_OPS
 
-// ╭────────╮
-// │ Labels │
-// ╰────────╯
-DECLARE_LUA_TYPE_STACK_OPS(label, Label);
+#define DEFINE_LUA_TYPE_LIB(Name, Type)   \
+  DECLARE_LUA_F(new_##Name);              \
+  DECLARE_LUA_LIB(Type) {                 \
+    { "new", new_##Name },                \
+    { NULL, NULL },                       \
+  };                                      \
+  DEFINE_LUA_INITLIB(Name);
 
-// ╭─────────╮
-// │ Buttons │
-// ╰─────────╯
-DECLARE_LUA_TYPE_STACK_OPS(button, Button);
-
-// ╭─────────────╮
-// │ EventRoutes │
-// ╰─────────────╯
-DECLARE_LUA_TYPE_STACK_OPS(event_route, EventRoute);
-
-// ╭───────╮
-// │ Boxes │
-// ╰───────╯
-DECLARE_LUA_TYPE_STACK_OPS(box, Box);
+#define DEFINE_LUA_TYPE_INIT_F(Name) \
+  DEFINE_LUA_F(new_##Name)

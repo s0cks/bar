@@ -29,6 +29,18 @@ Button* mbar_create_button(BarApp* app, const char* text) {
   return value;
 }
 
+void mbarL_push_button(BarApp* app, const char* text) {
+  ASSERT(app);
+  Button* value = mbar_create_button(app, text);
+#define L app->L
+  if(!value) {
+    luaL_error(L, "failed to create Button.");
+    return;
+  }
+  mbarL_pushbutton(L, value);
+#undef L
+}
+
 void mbar_free_button(Button* btn) {
   if(!btn)
     return;

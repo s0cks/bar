@@ -14,3 +14,5 @@ void event_route_free(lua_State* L, EventRoute* root);
 EventRoute* event_route_insert(EventRoute* root, const char* event, const int callback);
 EventRoute* event_route_insertl(EventRoute* route, const char* event, lua_State* L, const int index);
 EventRoute* event_route_search(EventRoute* root, const char* event);
+
+void mbarL_push_new_event_route(BarApp* app);

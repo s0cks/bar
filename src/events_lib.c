@@ -1,14 +1,14 @@
 #include "moonbar.h"
 #include "state_lua.h"
 
-DEFINE_LUA_F(new_event_route) {
-  EventRoute* value = event_route_new();
-  mbarL_pushevent_route(L, value);
+DEFINE_LUA_TYPE_LIB(event_route, EventRoute);
+
+DEFINE_LUA_TYPE_INIT_F(event_route) {
+  BarApp* app = mbarL_get_mbar_app(L);
+  if(!app) {
+    luaL_error(L, "failed to get global bar state");
+    return 0;
+  }
+  mbarL_push_new_event_route(app);
   return 1;
 }
-
-DECLARE_LUA_LIB(EventRoute) {
-  { "new", new_event_route },
-  { NULL, NULL },
-};
-DEFINE_LUA_INITLIB(event_route);

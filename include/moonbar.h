@@ -29,12 +29,15 @@
 #define MBAR_VERSION_PATCH @PROJECT_VERSION_PATCH@
 // clang-format on
 
+#define MBAR_INLINE static inline
+
 typedef struct _HyprClient HyprClient;
+typedef struct _EventRoute EventRoute;
 
 char* mbar_get_version();
 #include "moonbar-callback.inl.h"
-#include "moonbar-events.inl.h"
 #include "moonbar-app.inl.h"
+#include "moonbar-events.inl.h"
 #include "moonbar-box.inl.h"
 #include "moonbar-label.inl.h"
 #include "moonbar-button.inl.h"

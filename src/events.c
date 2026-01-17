@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "moonbar.h"
+#include "app.h"
 
 EventRoute* event_route_new() {
   EventRoute* node = (EventRoute*)malloc(sizeof(EventRoute));
@@ -72,4 +73,11 @@ EventRoute* event_route_search(EventRoute* root, const char* event) {
     curr = curr->children[index];
   END_FOREACH_CHAR_IN_EVENT
   return curr && curr->terminal ? curr : NULL;
+}
+
+void mbarL_push_new_event_route(BarApp* app) {
+  EventRoute* event_route = event_route_new();
+  if(!event_route)
+    return
+  mbarL_pushevent_route(app->L, event_route);
 }
