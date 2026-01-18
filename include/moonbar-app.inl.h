@@ -1,3 +1,4 @@
+typedef struct _Process Process;
 typedef struct _BarApp {
   char* home;
   int argc;
@@ -30,6 +31,7 @@ bool mbar_app_run(BarApp* app);
 void mbar_app_load_style(BarApp* app, const char* filename);
 char* mbar_app_get_cwd(BarApp* app);
 char* mbar_get_home_from_env();
+Process* mbar_spawn_process(BarApp* app);
 
 #define DEFINE_BOX_GET(Side, Value)     \
   static inline GtkBox*                 \

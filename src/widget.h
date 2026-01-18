@@ -1,6 +1,8 @@
 #ifndef MOONBAR_WIDGET_H
 #define MOONBAR_WIDGET_H
 
+#include <stdint.h>
+
 #define MOONBAR_WIDGET_FIELDS \
   GtkWidget* handle;          \
   EventRoute* events;         \
@@ -9,6 +11,17 @@
 #define FOR_EACH_WIDGET_SIGNAL(V) \
   V(map) \
   V(unmap)
+
+typedef uintptr_t WidgetPtr;
+
+#define mbar_widget_init(widget, app, h, ForEachSignal)   \
+  widget->owner = app;                                    \
+  widget->events = event_route_new();                     \
+  widget->handle = h;                                     \
+  if(widget->handle) {                                    \
+    CONNECT_WIDGET_SIGNALS(ForEachSignal);                \
+    g_object_ref(widget->handle);                         \
+  }
 
 static inline GtkWidget**
 mbar_widget_get_handle_ptr(const void* widget) {
@@ -64,5 +77,17 @@ mbar_widget_publish(void* widget, const char* event) {
   event_route_call(L, root);
 #undef L
 }
+
+#define DEFINE_ON_WIDGET_SIGNAL(Signal)             \
+  static inline void                                \
+  on_##Signal(GtkWidget* widget, gpointer data) {   \
+    mbar_widget_publish((void*)data, #Signal);      \
+  }
+
+#define CONNECT_WIDGET_SIGNAL(Signal) \
+  g_signal_connect(widget->handle, #Signal, G_CALLBACK(on_##Signal), widget);
+
+#define CONNECT_WIDGET_SIGNALS(ForEachSignal) \
+  ForEachSignal(CONNECT_WIDGET_SIGNAL)
 
 #endif // MOONBAR_WIDGET_H

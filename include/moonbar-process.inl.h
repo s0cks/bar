@@ -1,18 +1,18 @@
 typedef struct _Process Process;
 struct _Process {
+  int argc;
+  char** argv;
   uv_process_t handle;
   uv_stdio_container_t io[3];
   uv_process_options_t options;
   uv_pipe_t out;
   uv_pipe_t err;
-  int on_success;
-  int on_failure;
-  int on_finished;
-  char** argv;
-  int argc;
   BarApp* owner;
   Buffer* out_buffer;
   Buffer* err_buffer;
+  int on_success;
+  int on_failure;
+  int on_finished;
 };
 
 void mbar_proc_init(BarApp* app, Process* proc, char** argv, const int argc);

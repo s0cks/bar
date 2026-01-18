@@ -1,7 +1,7 @@
 --- TODO(@s0cks): clean this up, weird bindings naming
 local M = CoreLib
 
-M.inspect = require('inspect')
+M.inspect = require("inspect")
 
 local function split(s, sep)
   local values = {}
@@ -13,21 +13,21 @@ local function split(s, sep)
 end
 
 local function print_path_var(name, path)
-  print('  ' .. name .. ':')
-  for idx, p in ipairs(split(path, ';')) do
-    print('    - ' .. p)
+  print("  " .. name .. ":")
+  for idx, p in ipairs(split(path, ";")) do
+    print("    - " .. p)
   end
 end
 
 function M.print_info()
-  print('')
-  print('moonbar info:')
+  print("")
+  print("moonbar info:")
   --- TODO(@s0cks): print version
-  print('  config dir: ' .. M.get_config_dir())
-  print('  current working dir: ' .. M.get_cwd())
-  print_path_var('path', package.path)
-  print_path_var('cpath', package.cpath)
-  print('')
+  print("  config dir: " .. M.get_config_dir())
+  print("  current working dir: " .. M.get_cwd())
+  print_path_var("path", package.path)
+  print_path_var("cpath", package.cpath)
+  print("")
 end
 
 if M.is_debug() then
@@ -36,11 +36,11 @@ end
 
 function M.exec_shell(args, on_success, on_failure, on_error)
   local command = {
-    os.getenv('SHELL') or '/usr/bin/sh',
-    '-c',
-    table.concat(args, ' '),
+    os.getenv("SHELL") or "/usr/bin/sh",
+    "-c",
+    table.concat(args, " "),
   }
-  return M.spawn_process(command, on_success, on_failure, on_error)
+  return M.spawn(command, on_success, on_failure, on_error)
 end
 
 return M

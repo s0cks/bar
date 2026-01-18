@@ -1,5 +1,8 @@
 #include "label.h"
 #include "app.h"
+#include "moonbar.h"
+#include "label.h"
+#include "state_lua.h"
 
 Label* mbar_create_label(BarApp* app, const char* text) {
   GtkWidget* widget = gtk_label_new(text);
@@ -38,3 +41,45 @@ void mbar_free_label(Label* value) {
   g_object_unref(value->handle);
   free(value);
 }
+
+DEFINE_LUA_TYPE_LIB(label, Label);
+
+DEFINE_LUA_TYPE_INIT_F(label) {
+  const char* text =  lua_tostring(L, 1);
+  BarApp* app = mbarL_get_mbar_app(L);
+  if(!app) {
+    luaL_error(L, "failed to get global bar state");
+    return 0;
+  }
+  mbarL_push_new_label(app, text);
+  return 1;
+}
+
+DEFINE_LUA_F(set_text) {
+  Label* label = (Label*)lua_touserdata(L, 1);
+  if(label == NULL) {
+    luaL_error(L, "invalid label userdata");
+    return 0;
+  }
+  const char* text = lua_tostring(L, 2);
+  gtk_label_set_text(GTK_LABEL(label->handle), text);
+  return 1;
+}
+
+DEFINE_LUA_F(get_text) {
+  Label* label = (Label*)lua_touserdata(L, 1);
+  if(label == NULL) {
+    luaL_error(L, "invalid label userdata");
+    return 0;
+  }
+  const char* text = gtk_label_get_text(GTK_LABEL(label->handle));
+  lua_pushstring(L, text);
+  return 1;
+}
+
+DECLARE_LUA_METATABLE(Label) {
+  { "get_text", get_text },
+  { "set_text", set_text },
+  {NULL, NULL},
+};
+DEFINE_LUA_INITWIDGETMETATABLE(label, Label);

@@ -1,32 +1,33 @@
 #include "button.h"
+#include "moonbar.h"
 #include "app.h"
+#include "widget.h"
+#include "state_lua.h"
 
-#define DEFINE_ON_SIGNAL(Signal)                        \
-  static inline void                                    \
-  on_btn_##Signal(GtkWidget* widget, gpointer data) {   \
-    mbar_widget_publish((Button*)data, #Signal);        \
-  }
+FOR_EACH_BUTTON_SIGNAL(DEFINE_ON_WIDGET_SIGNAL);
 
-  FOR_EACH_BUTTON_SIGNAL(DEFINE_ON_SIGNAL)
-#undef DEFINE_ON_SIGNAL
+static inline GtkWidget*
+create_gtk_button(const char* text) {
+  GtkWidget* button = text != NULL ? gtk_button_new_with_label(text) : gtk_button_new();
+  // TODO(@s0cks): do something?
+  return button;
+}
 
 Button* mbar_create_button(BarApp* app, const char* text) {
   ASSERT(app);
-  GtkWidget* widget = text != NULL ? gtk_button_new_with_label(text) : gtk_button_new();
+  Button* widget = (Button*)malloc(sizeof(Button));
   if(!widget) {
-    mbar_error(app, "failed to create Label");
+    mbar_error(app, "failed to create Button");
     return NULL;
   }
-  Button* value = (Button*)malloc(sizeof(Button));
-  value->owner = app;
-  value->handle = widget;
-  value->events = event_route_new();
-#define CONNECT_SIGNAL(Signal) \
-  g_signal_connect(value->handle, #Signal, G_CALLBACK(on_btn_##Signal), value);
-  FOR_EACH_BUTTON_SIGNAL(CONNECT_SIGNAL)
-#undef CONNECT_SIGNAL
-  g_object_ref(value->handle);
-  return value;
+
+  GtkWidget* button = create_gtk_button(text);
+  if(!button) {
+    mbar_error(app, "failed to create GtkButton");
+    return NULL;
+  }
+  mbar_widget_init(widget, app, button, FOR_EACH_BUTTON_SIGNAL);
+  return widget;
 }
 
 void mbarL_push_button(BarApp* app, const char* text) {
@@ -48,3 +49,52 @@ void mbar_free_button(Button* btn) {
   g_object_unref(btn->handle);
   free(btn);
 }
+
+DEFINE_LUA_TYPE_LIB(button, Button);
+
+DEFINE_LUA_TYPE_INIT_F(button) {
+  const char* text = NULL;
+  if(lua_isnoneornil(L, -1)) {
+    text = NULL;
+  } else {
+    text = lua_tostring(L, -1);
+  }
+
+  BarApp* app = mbarL_get_mbar_app(L);
+  if(!app) {
+    luaL_error(L, "failed to get global bar state");
+    return 0;
+  }
+  mbarL_push_button(app, text);
+  return 1;
+}
+
+DEFINE_LUA_F(set_text) {
+  Button* button = (Button*)lua_touserdata(L, 1);
+  if(button == NULL) {
+    luaL_error(L, "invalid button userdata");
+    return 0;
+  }
+  const char* text = lua_tostring(L, -1);
+  gtk_button_set_label(GTK_BUTTON(button->handle), text);
+  return 1;
+}
+
+DEFINE_LUA_F(get_text) {
+  Button* button = (Button*)lua_touserdata(L, 1);
+  if(button == NULL) {
+    luaL_error(L, "invalid button userdata");
+    return 0;
+  }
+  const char* text = gtk_button_get_label(GTK_BUTTON(button->handle));
+  lua_pushstring(L, text);
+  return 1;
+}
+
+DECLARE_LUA_METATABLE(Button) {
+  { "get_text", get_text },
+  { "set_text", set_text },
+  { NULL, NULL },
+};
+
+DEFINE_LUA_INITWIDGETMETATABLE(button, Button);

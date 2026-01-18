@@ -37,6 +37,12 @@ FOR_EACH_LUA_TYPE(DECLARE_LUA_TYPE_STACK_OPS)
 #undef DECLARE_LUA_TYPE
 #undef DECLARE_LUA_TYPE_STACK_OPS
 
+#define LUA_NEW_LIB_TABLE(LibFuncs)   \
+  lua_newtable(L);                    \
+  luaL_setfuncs(L, LibFuncs, 0);      \
+  lua_pushvalue(L, -1);               \
+  lua_setfield(L, -2, "__index");
+
 #define DEFINE_LUA_TYPE_LIB(Name, Type)   \
   DECLARE_LUA_F(new_##Name);              \
   DECLARE_LUA_LIB(Type) {                 \
