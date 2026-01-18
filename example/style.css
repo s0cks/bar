@@ -1,0 +1,69 @@
+@define-color paper #FFFCF0;
+@define-color orange #DA702C;
+@define-color gray #282726;
+@define-color black #100F0F;
+@define-color red #D14D41;
+@define-color green #879A39;
+@define-color yellow #D0A215;
+@define-color cyan #3AA99F;
+@define-color blue #4385BE;
+@define-color purple #8B7EC8;
+@define-color magenta #CE5D97;
+@define-color white @paper;
+
+@define-color ui #282726;
+@define-color ui-two #343331;
+@define-color ui-three #403E3C;
+
+@define-color tx #CECDC3;
+@define-color tx-two #878580;
+@define-color tx-three #575653;
+
+@define-color bg @black;
+@define-color bg-two #1C1B1A;
+
+/* @define-color arch-blue #89b4fa; */
+@define-color arch-blue red;
+
+button,
+label,
+box {
+  color: @fg-two;
+  background-color: @bg;
+}
+
+button > label {
+  background: none;
+}
+
+box.main {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+button {
+  border: none;
+  background: none;
+  border-radius: 15px;
+}
+
+button.arch > label {
+  color: @arch-blue;
+}
+
+button:hover {
+  background-color: @bg-two;
+}
+
+label {
+  font-size: 20px;
+  line-height: 32px;
+}
+
+box.right {
+  background-color: green;
+}
+
+box.center {
+  background-color: yellow;
+}

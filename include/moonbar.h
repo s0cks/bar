@@ -3,6 +3,10 @@
 
 #include <uv.h>
 
+#ifndef UV_OK
+#define UV_OK 0
+#endif 
+
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>

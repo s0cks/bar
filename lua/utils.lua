@@ -1,10 +1,14 @@
 local M = {}
 
 -- local path_sep = package.config:sub(1, 1)
-local path_sep = '/'
+local path_sep = "/"
 
 function M.startswith(s, prefix)
   return s:sub(1, #prefix) == prefix
+end
+
+function M.trim(s)
+  return s:match("^%s*(.-)%s*$")
 end
 
 function M.join_path(path)
