@@ -1,5 +1,5 @@
-#include "hypr/hyprctl.h"
 #include "hypr_client.h"
+#include "hyprctl.h"
 #include "log.h"
 #include "moonbar.h"
 #include "state_gtk.h"

@@ -1,7 +1,7 @@
 #include "hypr_client.h"
 
 #include "app.h"
-#include "hypr/hypr_parser.h"
+#include "hypr_parser.h"
 
 static inline bool get_hypr_instance_path(char* result, const int result_len) {
   const char* his = getenv("HYPRLAND_INSTANCE_SIGNATURE");

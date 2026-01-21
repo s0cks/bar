@@ -1,4 +1,3 @@
 [
-  { include: [ "@Msys/_pthread/.*>", "private", "<pthread.h>", "public" ] },
-  { ref: "iwyu-mappings/cstd++.imp" },
+  
 ]

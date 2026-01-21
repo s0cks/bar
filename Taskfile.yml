@@ -8,9 +8,19 @@ tasks:
     dir: "{{.BUILD_DIR}}/"
     cmds:
     - cmake --build . --target {{.TARGET}}
+  cmake:configure:
+    cmds:
+    - cmake --preset={{.CMAKE_PRESET}} {{.ROOT_DIR}}
   configure:
     cmds:
-    - cmake --preset={{.CLI_ARGS}} {{.ROOT_DIR}}
+    - task: cmake:configure
+      vars:
+        CMAKE_PRESET: "{{.CLI_ARGS}}"
+  configure:debug:
+    cmds:
+    - task: cmake:configure
+      vars:
+        CMAKE_PRESET: "debug"
   build:
     cmds:
     - task: build-target
@@ -21,7 +31,7 @@ tasks:
     env:
       MBAR_EXEC: "{{.BUILD_DIR}}/moonbar"
       MBAR_LIB_HOME: "{{.ROOT_DIR}}"
-      MBAR_CLIB_HOME: "{{.BUILD_DIR}}/bindings"
+      MBAR_CLIB_HOME: "{{.BUILD_DIR}}/lib"
     cmds:
     - "{{.BIN_DIR}}/run-bar {{.CLI_ARGS}}"
   run:debug:
@@ -30,7 +40,7 @@ tasks:
       MBAR_EXEC: "{{.BUILD_DIR}}/moonbar"
       MBAR_DEBUG: "lldb"
       MBAR_LIB_HOME: "{{.ROOT_DIR}}"
-      MBAR_CLIB_HOME: "{{.BUILD_DIR}}/bindings"
+      MBAR_CLIB_HOME: "{{.BUILD_DIR}}/lib"
     cmds:
     - "{{.BIN_DIR}}/run-bar {{.CLI_ARGS}}"
   clean:

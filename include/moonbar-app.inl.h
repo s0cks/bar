@@ -1,4 +1,5 @@
 typedef struct _Process Process;
+typedef struct _Callback Callback;
 typedef struct _BarApp {
   char* home;
   int argc;
@@ -11,7 +12,7 @@ typedef struct _BarApp {
   GtkApplication* app;
   GtkWidget* window;
   GtkCenterBox* box;
-  //TODO(@s0cks): convert to GtkBox
+  // TODO(@s0cks): convert to GtkBox
   GtkWidget* left;
   GtkWidget* center;
   GtkWidget* right;
@@ -33,35 +34,32 @@ char* mbar_app_get_cwd(BarApp* app);
 char* mbar_get_home_from_env();
 Process* mbar_spawn_process(BarApp* app);
 
-#define DEFINE_BOX_GET(Side, Value)     \
-  static inline GtkBox*                 \
-  mbar_get_##Side(BarApp* app) {        \
-    ASSERT(app);                        \
-    return GTK_BOX((Value));            \
+#define DEFINE_BOX_GET(Side, Value)                    \
+  static inline GtkBox* mbar_get_##Side(BarApp* app) { \
+    ASSERT(app);                                       \
+    return GTK_BOX((Value));                           \
   }
 DEFINE_BOX_GET(left, gtk_center_box_get_start_widget(app->box));
 DEFINE_BOX_GET(center, gtk_center_box_get_center_widget(app->box));
 DEFINE_BOX_GET(right, gtk_center_box_get_end_widget(app->box));
 #undef DEFINE_BOX_GET
 
-#define DEFINE_BOX_APPEND(Side)                             \
-  static inline void                                        \
-  mbar_append_##Side(BarApp* app, GtkWidget* widget) {      \
-    ASSERT(app);                                            \
-    ASSERT(widget);                                         \
-    gtk_box_append(mbar_get_##Side(app), widget);           \
+#define DEFINE_BOX_APPEND(Side)                                           \
+  static inline void mbar_append_##Side(BarApp* app, GtkWidget* widget) { \
+    ASSERT(app);                                                          \
+    ASSERT(widget);                                                       \
+    gtk_box_append(mbar_get_##Side(app), widget);                         \
   }
 DEFINE_BOX_APPEND(left);
 DEFINE_BOX_APPEND(center);
 DEFINE_BOX_APPEND(right);
 #undef DEFINE_BOX_APPEND
 
-#define DEFINE_BOX_PREPEND(Side)                            \
-  static inline void                                        \
-  mbar_prepend_##Side(BarApp* app, GtkWidget* widget) {     \
-    ASSERT(app);                                            \
-    ASSERT(widget);                                         \
-    gtk_box_prepend(mbar_get_##Side(app), widget);          \
+#define DEFINE_BOX_PREPEND(Side)                                           \
+  static inline void mbar_prepend_##Side(BarApp* app, GtkWidget* widget) { \
+    ASSERT(app);                                                           \
+    ASSERT(widget);                                                        \
+    gtk_box_prepend(mbar_get_##Side(app), widget);                         \
   }
 DEFINE_BOX_PREPEND(left);
 DEFINE_BOX_PREPEND(center);
