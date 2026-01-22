@@ -1,9 +1,9 @@
 set(LIB_NAME ${PROJECT_NAME}-tray)
-file(GLOB TRAY_SOURCES
+file(GLOB LIB_SOURCES
   "${CMAKE_CURRENT_SOURCE_DIR}/*.c")
 
 add_library(${LIB_NAME} SHARED
-  tray.c)
+  ${LIB_SOURCES})
 set_target_properties(${LIB_NAME}
   PROPERTIES
     OUTPUT_NAME "tray"

@@ -107,6 +107,13 @@ FOR_EACH_LUA_TYPE(DECLARE_LUA_TYPE_STACK_OPS)
     return 1;                                         \
   }
 
+#define mbarL_check_global_app(L, Name)              \
+  BarApp* Name = mbarL_get_mbar_app(L);              \
+  if (!Name) {                                       \
+    luaL_error(L, "failed to get global bar state"); \
+    return 0;                                        \
+  }
+
 // clang-format off
 #define DEFINE_LUAOPEN_MOONBAR_LIB_F(Name) \
   _DEFINE_LUAOPEN_MOONBAR_LIB_F(Name, kLibFuncs)

@@ -42,11 +42,4 @@ static inline void mbarL_hello_world(BarApp* app) {
   mbarL_dostring(app, kHelloWorld);
 }
 
-#define mbarL_check_global_app(L, Name)              \
-  BarApp* Name = mbarL_get_mbar_app(L);              \
-  if (!Name) {                                       \
-    luaL_error(L, "failed to get global bar state"); \
-    return 0;                                        \
-  }
-
 #endif  // MBAR_LSTATE_H
